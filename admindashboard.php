@@ -98,6 +98,7 @@ foreach ($all_devices as $d) {
     elseif ($s == 0) $inactive++;
     else $offline++;
 }
+
 /* ===================== LOAD LAPORAN ===================== */
 $laporan = [];
 $res_lap = $conn->query("
@@ -123,30 +124,56 @@ if(isset($_GET['verifikasi_laporan'])){
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Admin</title>
-<link rel="stylesheet" href="css/style-fancy.css?v=3">
+<link rel="stylesheet" href="css/style-fancy.css?v=4">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<div class="container">
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h2>Admin Panel</h2>
+        <p>Monitoring Faceprint</p>
+    </div>
+    
+    <nav>
+        <button onclick="showSection('map-section', this)" class="active">
+            <span>📊 Peta & Status</span>
+        </button>
+        <button onclick="showSection('device', this)">
+            <span>🖥️ Device</span>
+        </button>
+        <button onclick="showSection('user', this)">
+            <span>👥 User</span>
+        </button>
+        <button onclick="showSection('about', this)">
+            <span>📋 Hasil Laporan</span>
+        </button>
+    </nav>
+    
+    <form method="post" class="sidebar-logout">
+        <button type="submit" name="logout">🚪 Logout</button>
+    </form>
+</div>
 
-<nav>
-    <button onclick="showSection('map-section', this)" class="active">Peta & Status</button>
-    <button onclick="showSection('device', this)">Device</button>
-    <button onclick="showSection('user', this)">User</button>
-    <button onclick="showSection('about', this)">Hasil Laporan</button>
-</nav>
+<!-- MAIN CONTENT -->
+<div class="container">
 
 <!-- ============================ MAP ============================ -->
 <div id="map-section" class="section active">
+    <div class="content-header">
+        <h1>Peta & Status Monitoring</h1>
+    </div>
+    
     <div id="map"></div>
-    <canvas id="statusChart" height="150"></canvas>
+    <canvas id="statusChart"></canvas>
 
     <!-- ===================== TABEL MONITORING ALAT ===================== -->
-    <h3 style="margin-top:20px;">Monitoring Alat Faceprint</h3>
+    <h3 style="margin-top:20px; margin-bottom:15px; color:#1e3a8a;">Monitoring Alat Faceprint</h3>
 
     <table>
         <tr>
@@ -185,7 +212,7 @@ if(isset($_GET['verifikasi_laporan'])){
     </table>
 
     <!-- ===================== PAGINATION ===================== -->
-    <div>
+    <div class="pagination">
         <?php if($page > 1): ?>
             <a href="?page=<?= $page-1 ?>" class="btn">Previous</a>
         <?php endif; ?>
@@ -203,7 +230,9 @@ if(isset($_GET['verifikasi_laporan'])){
 
 <!-- ============================ DEVICE ============================ -->
 <div id="device" class="section">
-    <h3>Device Faceprint</h3>
+    <div class="content-header">
+        <h1>Manajemen Device Faceprint</h1>
+    </div>
 
     <form method="post" class="form-inline">
         <input name="alias" placeholder="Alias" required>
@@ -215,7 +244,7 @@ if(isset($_GET['verifikasi_laporan'])){
             <option value="0">Tidak Dipakai</option>
             <option value="2">Offline</option>
         </select>
-        <button type="submit" name="add_device" class="btn primary">Tambah</button>
+        <button type="submit" name="add_device" class="btn primary">Tambah Device</button>
     </form>
 
     <table>
@@ -257,14 +286,16 @@ if(isset($_GET['verifikasi_laporan'])){
 
 <!-- ============================ USER ============================ -->
 <div id="user" class="section">
-    <h3>User</h3>
+    <div class="content-header">
+        <h1>Manajemen User</h1>
+    </div>
 
     <form method="post" class="form-inline">
         <input name="username" placeholder="Username" required>
         <input name="nip" placeholder="NIP">
         <input name="alamat" placeholder="Alamat Sekolah">
         <input type="password" name="password" placeholder="Password" required>
-        <button type="submit" name="add_user" class="btn primary">Tambah</button>
+        <button type="submit" name="add_user" class="btn primary">Tambah User</button>
     </form>
 
     <table>
@@ -298,9 +329,11 @@ if(isset($_GET['verifikasi_laporan'])){
 
 <!-- ============================ HASIL / RIWAYAT LAPORAN ============================ -->
 <div id="about" class="section">
-    <h3>📋 Riwayat Laporan Pengguna</h3>
+    <div class="content-header">
+        <h1>📋 Riwayat Laporan Pengguna</h1>
+    </div>
 
-    <p>
+    <p style="margin-bottom:20px; color:#64748b;">
         Halaman ini digunakan oleh administrator untuk melihat
         riwayat laporan yang dikirim oleh pengguna sekolah.
     </p>
@@ -332,11 +365,6 @@ if(isset($_GET['verifikasi_laporan'])){
     </table>
 </div>
 
-<!-- TOMBOL LOGOUT DI TENGAH -->
-<form method="post" class="logout-center">
-    <button type="submit" name="logout" class="logout-button">Logout</button>
-</form>
-
 </div>
 
 <script>
@@ -357,6 +385,13 @@ new Chart(document.getElementById('statusChart'), {
             data:[<?= $online ?>, <?= $offline ?>, <?= $inactive ?>],
             backgroundColor:["#16a34a","#dc2626","#6b7280"]
         }]
+    },
+    options:{
+        plugins:{
+            legend:{
+                position:'bottom'
+            }
+        }
     }
 });
 

@@ -19,6 +19,7 @@ $user = $result->fetch_assoc();
 
 // ================== PROSES SIMPAN LAPORAN ==================
 $pesan_laporan = "";
+$pesan_class = "";
 if(isset($_POST['kirim_laporan'])){
     $nama   = $user['username'];
     $alamat = $user['alamat_sekolah'];
@@ -32,9 +33,11 @@ if(isset($_POST['kirim_laporan'])){
         $stmt->bind_param("isss", $user_id, $nama, $alamat, $isi);
         $stmt->execute();
 
-        $pesan_laporan = "<p style='color:green;'>Laporan berhasil dikirim.</p>";
+        $pesan_laporan = "✅ Laporan berhasil dikirim!";
+        $pesan_class = "success";
     } else {
-        $pesan_laporan = "<p style='color:red;'>Isi laporan tidak boleh kosong.</p>";
+        $pesan_laporan = "❌ Isi laporan tidak boleh kosong!";
+        $pesan_class = "error";
     }
 }
 
@@ -83,87 +86,125 @@ if(isset($_POST['logout'])){
 
 </head>
 <body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h2>User Panel</h2>
+        <p><?= htmlspecialchars($user['username']) ?></p>
+    </div>
+    
+    <nav>
+        <button onclick="showSection('profile', this)" class="active">
+            <span>👤 Profil</span>
+        </button>
+        <button onclick="showSection('map', this)">
+            <span>🗺️ Peta & Status</span>
+        </button>
+    </nav>
+    
+    <form method="post" class="sidebar-logout">
+        <button type="submit" name="logout">🚪 Logout</button>
+    </form>
+</div>
+
+<!-- MAIN CONTAINER -->
 <div class="container">
-<nav>
-<button onclick="showSection('profile')" class="active">Profil</button>
-    <button onclick="showSection('map')">Peta & Status</button>
-</nav>
 
-<!-- Profil -->
-<div id="profile" class="section active">
-    <h2>Profil User</h2>
+    <!-- ============== PROFIL SECTION ============== -->
+    <div id="profile" class="section active">
+        <div class="content-header">
+            <h1>Profil Pengguna</h1>
+        </div>
 
-    <!-- Data Profil -->
-    <div class="card">
-        <p><strong class="user-info">Username:</strong>
-            <span class="user-value"><?= htmlspecialchars($user['username'] ?? '-') ?></span>
-        </p>
-        <p><strong class="user-info">NIP:</strong>
-            <span class="user-value"><?= htmlspecialchars($user['nip'] ?? '-') ?></span>
-        </p>
-        <p><strong class="user-info">Alamat Sekolah:</strong>
-            <span class="user-value"><?= htmlspecialchars($user['alamat_sekolah'] ?? '-') ?></span>
-        </p>
+        <!-- Data Profil -->
+        <div class="card">
+            <p>
+                <span class="user-info">Username:</span>
+                <span class="user-value"><?= htmlspecialchars($user['username'] ?? '-') ?></span>
+            </p>
+            <p>
+                <span class="user-info">NIP:</span>
+                <span class="user-value"><?= htmlspecialchars($user['nip'] ?? '-') ?></span>
+            </p>
+            <p>
+                <span class="user-info">Alamat Sekolah:</span>
+                <span class="user-value"><?= htmlspecialchars($user['alamat_sekolah'] ?? '-') ?></span>
+            </p>
+        </div>
+
+        <h2 class="section-title">📝 Form Laporan</h2>
+
+        <!-- Pesan Laporan -->
+        <?php if($pesan_laporan): ?>
+            <div class="pesan-laporan <?= $pesan_class ?>">
+                <?= $pesan_laporan ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Form Laporan -->
+        <div class="laporan-card">
+            <form method="post">
+                <p>
+                    <strong>Nama Pelapor:</strong>
+                    <input type="text"
+                           value="<?= htmlspecialchars($user['username']) ?>"
+                           readonly>
+                </p>
+
+                <p>
+                    <strong>Alamat Sekolah:</strong>
+                    <input type="text"
+                           value="<?= htmlspecialchars($user['alamat_sekolah']) ?>"
+                           readonly>
+                </p>
+
+                <p>
+                    <strong>Isi Laporan:</strong>
+                    <textarea name="isi_laporan"
+                              rows="6"
+                              required
+                              placeholder="Tuliskan laporan Anda di sini..."></textarea>
+                </p>
+
+                <button type="submit" name="kirim_laporan" class="btn-laporan">
+                    📤 Kirim Laporan
+                </button>
+            </form>
+        </div>
     </div>
 
-    <!-- Form Laporan -->
-    <h3 style="margin-top:20px;">Laporan Pengguna</h3>
+    <!-- ============== PETA & STATUS SECTION ============== -->
+    <div id="map" class="section">
+        <div class="content-header">
+            <h1>Peta & Status Monitoring</h1>
+        </div>
+        
+        <canvas id="statusChart"></canvas>
+        <div id="mapid"></div>
+    </div>
 
-    <?= $pesan_laporan ?>
-
-    <form method="post" class="card">
-        <p>
-            <strong>Nama Pelapor:</strong><br>
-            <input type="text"
-                   value="<?= htmlspecialchars($user['username']) ?>"
-                   readonly>
-        </p>
-
-        <p>
-            <strong>Alamat Sekolah:</strong><br>
-            <input type="text"
-                   value="<?= htmlspecialchars($user['alamat_sekolah']) ?>"
-                   readonly>
-        </p>
-
-        <p>
-            <strong>Isi Laporan:</strong><br>
-            <textarea name="isi_laporan"
-                      rows="5"
-                      required
-                      placeholder="Tuliskan laporan Anda..."></textarea>
-        </p>
-
-        <button type="submit" name="kirim_laporan" class="logout-button">
-            Kirim Laporan
-        </button>
-    </form>
-</div>
-
-<!-- Peta & Status -->
-<div id="map" class="section">
-    <h2>Status Alat Faceprint</h2>
-    <canvas id="statusChart"></canvas>
-    <div id="mapid"></div>
-</div>
-
-<!-- Logout -->
-<div class="logout-wrapper">
-    <form method="post">
-        <button type="submit" name="logout" class="logout-button">Logout</button>
-    </form>
-</div>
 </div>
 
 <script>
-function showSection(id){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+function showSection(id, btn){
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    
+    // Show selected section
     document.getElementById(id).classList.add('active');
-    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-    document.querySelector(`nav button[onclick="showSection('${id}')"]`).classList.add('active');
 
+    // Update active button
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Resize map when map section is shown
     if(id === 'map'){
-        setTimeout(()=> map.invalidateSize(), 200);
+        setTimeout(() => {
+            if(typeof map !== 'undefined') {
+                map.invalidateSize();
+            }
+        }, 300);
     }
 }
 
@@ -175,16 +216,42 @@ const statusData = {
         backgroundColor:["#22c55e","#ef4444","#9ca3af"]
     }]
 };
-new Chart(document.getElementById('statusChart'), { type:'pie', data:statusData, options:{plugins:{legend:{position:'bottom'}}} });
+
+const chartConfig = { 
+    type:'pie', 
+    data: statusData, 
+    options:{
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins:{
+            legend:{
+                position:'bottom',
+                labels: {
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    padding: 15
+                }
+            }
+        }
+    } 
+};
+
+new Chart(document.getElementById('statusChart'), chartConfig);
 
 // Map device
 const map = L.map('mapid').setView([-6.7,111.4],12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    attribution:'© OpenStreetMap contributors'
+    attribution:'© OpenStreetMap contributors',
+    maxZoom: 18
 }).addTo(map);
 
 // Marker Cluster
-const markers = L.markerClusterGroup();
+const markers = L.markerClusterGroup({
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true
+});
 
 <?php foreach($devices as $d):
 $lat=floatval($d['latitude']??0);
@@ -198,17 +265,21 @@ $label=$state==1?'Online':($state==0?'Tidak Dipakai':'Offline');
 markers.addLayer(L.marker([<?= $lat ?>,<?= $lng ?>],{
     icon:L.divIcon({
         className:'hollow-marker',
-        html:`<div style="width:22px;height:22px;border-radius:50%;border:4px solid <?= $color ?>;background:white;"></div>`,
-        iconSize:[22,22],
-        iconAnchor:[11,11]
+        html:`<div style="width:24px;height:24px;border-radius:50%;border:4px solid <?= $color ?>;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>`,
+        iconSize:[24,24],
+        iconAnchor:[12,12]
     })
-}).bindPopup(`<strong><?= $alias ?></strong><br>Status: <span style="color:<?= $color ?>"><?= $label ?></span><br>IP: <?= $ip ?>`));
+}).bindPopup(`<div style="padding:5px;"><strong style="font-size:16px;"><?= $alias ?></strong><br><span style="color:<?= $color ?>;font-weight:bold;">Status: <?= $label ?></span><br>IP: <?= $ip ?></div>`));
 <?php endforeach; ?>
 
 map.addLayer(markers);
 
 // Resize map on window resize
-window.addEventListener('resize', ()=>map.invalidateSize());
+window.addEventListener('resize', () => {
+    if(typeof map !== 'undefined') {
+        map.invalidateSize();
+    }
+});
 </script>
 </body>
 </html>
