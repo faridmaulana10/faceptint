@@ -1,0 +1,258 @@
+/* === Reset & Global === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #FFD700, #FF69B4);
+    color: #111827;
+    transition: 0.3s;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 15px;
+}
+
+/* === Navbar === */
+nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 12px;
+    background: linear-gradient(135deg, #DAA520, #FF69B4);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+nav button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    background: #fff;
+    color: #111827;
+    transition: 0.2s;
+}
+
+nav button.active,
+nav button:hover {
+    background: #FFB6C1;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* === Sections === */
+.section {
+    display: none;
+    padding: 10px;
+    flex: 1;
+    overflow: auto;
+}
+
+.section.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+}
+
+/* === Judul Section === */
+.section h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.8em;
+    color: #fff8dc;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* === Card Profil === */
+.card {
+    background: #fff8dc;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: center;
+    max-width: 400px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+
+.card p {
+    margin: 12px 0;
+    font-size: 1em;
+}
+
+.user-value {
+    font-weight: bold;
+    color: #b8860b;
+}
+
+.user-info {
+    font-weight: bold;
+}
+
+/* ===============================
+   LAPORAN PENGGUNA (FORM)
+=============================== */
+.laporan-card {
+    background: #fffdf5;
+    padding: 26px 24px;
+    border-radius: 16px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+    max-width: 420px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.laporan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.4);
+}
+
+/* form group */
+.laporan-card p {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+/* label */
+.laporan-card strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.85em;
+    font-weight: 700;
+    color: #92400e;
+    letter-spacing: 0.4px;
+}
+
+/* input & textarea */
+.laporan-card input,
+.laporan-card textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1.8px solid #e5c97c;
+    font-size: 0.95em;
+    background: #ffffff;
+    outline: none;
+    transition: 0.25s ease;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* hover */
+.laporan-card input:hover,
+.laporan-card textarea:hover {
+    border-color: #f59e0b;
+}
+
+/* focus */
+.laporan-card input:focus,
+.laporan-card textarea:focus {
+    border-color: #ff69b4;
+    background: #fff7fb;
+    box-shadow: 0 0 0 3px rgba(255,105,180,0.25);
+}
+
+/* readonly */
+.laporan-card input[readonly] {
+    background: linear-gradient(135deg, #fff3cd, #ffecb5);
+    border-color: #e0b100;
+    color: #6b4e00;
+    font-weight: 600;
+    cursor: not-allowed;
+}
+
+/* textarea */
+.laporan-card textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.5;
+}
+
+/* placeholder */
+.laporan-card textarea::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* tombol kirim */
+.btn-laporan {
+    width: 100%;
+    padding: 13px;
+    margin-top: 12px;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-laporan:hover {
+    background: linear-gradient(135deg, #b91c1c, #7f1d1d);
+    transform: scale(1.05);
+}
+
+/* === Chart & Map === */
+#statusChart {
+    width: 100%;
+    max-height: 300px;
+    margin-bottom: 20px;
+    background: #fff8dc;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+#mapid {
+    width: 100%;
+    height: 60vh;
+    max-height: 500px;
+    border-radius: 12px;
+    border: 2px solid #FF69B4;
+}
+
+/* === Logout === */
+.logout-wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.logout-button {
+    padding: 12px 25px;
+    background: #b22222;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout-button:hover {
+    background: #8b0000;
+    transform: scale(1.05);
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+    }
+    #mapid {
+        height: 50vh;
+    }
+}

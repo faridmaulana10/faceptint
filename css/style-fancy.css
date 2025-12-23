@@ -1,0 +1,312 @@
+/* =========================
+   GLOBAL STYLE
+========================= */
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: #1E3A8A; /* Biru resmi pemerintah */
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.container {
+    width: 95%;
+    max-width: 1300px;
+    margin: auto;
+    padding-bottom: 60px;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+nav button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+nav button:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+}
+
+nav button.active {
+    background: #3B82F6; /* Biru aktif */
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* =========================
+   SECTION HANDLER
+========================= */
+.section {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+}
+
+.section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================
+   MAP & CHART
+========================= */
+#map {
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+#statusChart {
+    max-width: 300px;
+    margin: 0 auto 20px;
+    display: block;
+}
+
+/* =========================
+   TABLE STYLE
+========================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #ffffff;
+    color: #1E3A8A;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+th {
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    color: white;
+    background: #2563EB; /* Biru header tabel */
+}
+
+td {
+    padding: 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+tr:hover td {
+    background: #e0e7ff;
+}
+
+/* =========================
+   STATUS TAG
+========================= */
+.tag {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+.tag.green { background: #16a34a; }
+.tag.red   { background: #dc2626; }
+.tag.gray  { background: #6b7280; }
+
+/* =========================
+   FORM INLINE
+========================= */
+.form-inline {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.form-inline input,
+.form-inline select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    flex: 1;
+}
+
+.form-inline input:focus,
+.form-inline select:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 5px rgba(37,99,235,0.4);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+    transition: all 0.25s ease;
+    font-size: 14px;
+}
+
+/* Tombol utama / tambah / logout */
+.btn.primary {
+    background: #3B82F6; /* Biru resmi */
+    color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.btn.primary:hover {
+    background: #2563EB;
+    transform: translateY(-2px);
+}
+
+/* Tombol Edit */
+.btn.edit {
+    background: #10B981; /* Hijau */
+    color: white;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+
+.btn.edit:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+/* Tombol Hapus */
+.btn.delete {
+    background: #EF4444; /* Merah */
+    color: white;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+
+.btn.delete:hover {
+    background: #B91C1C;
+    transform: translateY(-1px);
+}
+
+/* Tabel aksi agar tombol rapih & inline */
+td.aksi {
+    display: flex;
+    gap: 6px;
+}
+
+.inline-form {
+    display: inline;
+    margin: 0;
+}
+
+/* =========================
+   LOGOUT CENTER
+========================= */
+.logout-center {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.logout-button {
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    background: #3B82F6;
+    color: white;
+}
+
+.logout-button:hover {
+    background: #2563EB;
+}
+
+/* =========================
+   MAP MARKER PULSE
+========================= */
+.leaflet-marker-icon.pulse {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.6; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* =========================
+   DARK MODE
+========================= */
+body.dark-mode {
+    background: #1e40af; /* Biru gelap */
+    color: #ffffff;
+}
+
+body.dark-mode table { background: #1e3a8a; color: #ffffff; }
+body.dark-mode th { background: #2563EB; color: #ffffff; }
+body.dark-mode td { border-bottom: 1px solid #3b82f6; }
+
+/* =========================
+   PAGINATION BUTTONS PUTIH
+========================= */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.pagination .btn {
+    background: #ffffff; /* Putih semua tombol */
+    color: #1E3A8A;      /* Teks biru gelap */
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    transition: all 0.2s ease;
+}
+
+.pagination .btn:hover {
+    background: #f0f0f0; /* Putih sedikit abu saat hover */
+    transform: translateY(-1px);
+}
+
+.pagination .btn.active {
+    background: #e5e5e5; /* Putih abu untuk halaman aktif */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    color: #1E3A8A;
+    border-color: #bbb;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 780px) {
+    #map { height: 280px; }
+    #statusChart { max-width: 280px; }
+    nav button { width: 45%; font-size: 14px; }
+    .form-inline { flex-direction: column; }
+    .form-inline input, .form-inline select { width: 100%; }
+}
